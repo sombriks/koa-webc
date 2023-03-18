@@ -1,0 +1,31 @@
+{
+  "name": "koa-webc",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=14.18"
+  },
+  "description": "koa plugin to render server-side webc web components",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha **/*.spec.js"
+  },
+  "keywords": [
+    "koa",
+    "webc",
+    "web components",
+    "ssr",
+    "plugin"
+  ],
+  "author": "Leonardo Silveira <sombriks@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@11ty/webc": "^0.9.3",
+    "koa": "^2.14.1"
+  },
+  "devDependencies": {
+    "c8": "^7.13.0",
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.2.0"
+  }
+}
