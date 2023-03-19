@@ -1,4 +1,7 @@
 {
+  "files.associations": {
+    "*.webc":"html"
+  },
   "editor.rulers": [
     80,120
   ]
