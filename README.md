@@ -1,5 +1,8 @@
 # The KoaWebC plugin
 
+![build status](https://github.com/sombriks/koa-webc/actions/workflows/node.js.yml/badge.svg)
+[![npm version](https://img.shields.io/npm/v/koa-webc?style=plastic)](https://www.npmjs.com/package/koa-webc)
+
 This plugin enables [Koa](https://koajs.com/) to serve
 [WebC](https://github.com/11ty/webc) pages.
 
