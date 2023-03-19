@@ -46,7 +46,6 @@ describe("Basic checks", () => {
     app.use(KoaWebC({ viewPath: path.join(process.cwd(), "test", "fixtures") }))
     app.use(async ctx => {
       await ctx.render("hello-world.webc")
-      console.log(ctx.body)
     })
 
     chai
@@ -56,6 +55,27 @@ describe("Basic checks", () => {
         if (err) return done(err)
         if (res?.error) return done(res.error)
         res.should.have.status(200)
+        res.text.should.be.eq("<p>hello world!</p>")
+        done()
+      })
+  })
+
+  it("should have access to ctx inside template", done => {
+
+    const app = new Koa()
+    app.use(KoaWebC({ viewPath: path.join(process.cwd(), "test", "fixtures") }))
+    app.use(async ctx => {
+      await ctx.render("hello-user.webc")
+    })
+
+    chai
+      .request(app.callback())
+      .get('/?user=jack%20sparrow')
+      .end((err, res) => {
+        if (err) return done(err)
+        if (res?.error) return done(res.error)
+        res.should.have.status(200)
+        res.text.should.be.eq(`<p>how are you, <span>jack sparrow</span>?</p>`)
         done()
       })
   })

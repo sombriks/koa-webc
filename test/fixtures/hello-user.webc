@@ -1,0 +1,1 @@
+<p>how are you, <span @raw="ctx.query.user"></span>?</p>

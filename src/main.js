@@ -14,7 +14,7 @@ exports.KoaWebC = (options) => {
     ctx.render = async (viewName, extra) => {
       const file = path.join(viewPath, viewName)
       const page = new WebC({ file })
-      let { html, css, js, components } = await page.compile();
+      let { html, css, js, components } = await page.compile({ data: { ctx } });
       ctx.body = html
     }
     await next()
