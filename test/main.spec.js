@@ -79,4 +79,25 @@ describe("Basic checks", () => {
         done()
       })
   })
+
+  it("should render complex templates", done => {
+
+    const app = new Koa()
+    app.use(KoaWebC({ viewPath: path.join(process.cwd(), "test", "fixtures") }))
+    app.use(async ctx => {
+      await ctx.render("complex/main.webc")
+    })
+
+    chai
+      .request(app.callback())
+      .get('/?user=jack%20sparrow')
+      .end((err, res) => {
+        if (err) return done(err)
+        if (res?.error) return done(res.error)
+        res.should.have.status(200)
+        chai.expect(res.text).to.include(`<span class="star">★</span>`)
+        chai.expect(res.text).to.include(`title="speed"`)
+        done()
+      })
+  })
 })

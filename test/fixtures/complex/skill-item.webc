@@ -1,0 +1,30 @@
+<div class="skill">
+    <span :title="title" :class="iconClass || ''"></span>
+    <div>
+        <span class="star" @html="stars > 0 ? '&#9733;' : '&#9734;'"></span>
+        <span class="star" @html="stars > 1 ? '&#9733;' : '&#9734;'"></span>
+        <span class="star" @html="stars > 2 ? '&#9733;' : '&#9734;'"></span>
+        <span class="star" @html="stars > 3 ? '&#9733;' : '&#9734;'"></span>
+        <span class="star" @html="stars > 4 ? '&#9733;' : '&#9734;'"></span>
+    </div>
+</div>
+<style webc:scoped>
+  .skill {
+    /*margin: 2px;*/
+    margin-left: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .skill > div {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .skill > span {
+    font-size: 2.5em;
+    flex-grow: 1;
+  }
+</style>

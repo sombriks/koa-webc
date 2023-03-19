@@ -1,0 +1,4 @@
+<skill-item webc:import="./skill-item.webc" title="speed" stars="1"></skill-item>
+<skill-item webc:import="./skill-item.webc" title="strength" stars="3"></skill-item>
+<!-- TODO offer global import? -->
+<skill-item title="agility" stars="3"></skill-item>

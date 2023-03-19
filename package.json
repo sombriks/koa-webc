@@ -1,15 +1,10 @@
 {
   "name": "koa-webc",
   "version": "0.0.4",
-  "engines": {
-    "node": ">=14.18"
-  },
   "description": "koa plugin to render server-side webc web components",
-  "main": "index.js",
-  "scripts": {
-    "test": "cross-env NODE_ENV=test mocha -r dotenv-flow/config **/*.spec.js",
-    "test:coverage": "c8 npm run test"
-  },
+  "webpage": "https://github.com/sombriks/koa-webc",
+  "author": "Leonardo Silveira <sombriks@gmail.com>",
+  "license": "MIT",
   "keywords": [
     "koa",
     "webc",
@@ -17,8 +12,11 @@
     "ssr",
     "plugin"
   ],
-  "author": "Leonardo Silveira <sombriks@gmail.com>",
-  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test mocha -r dotenv-flow/config **/*.spec.js",
+    "test:coverage": "c8 npm run test"
+  },
   "dependencies": {
     "@11ty/webc": "^0.9.3",
     "debug": "^4.3.4",
@@ -31,6 +29,9 @@
     "cross-env": "^7.0.3",
     "dotenv-flow": "^3.2.0",
     "mocha": "^10.2.0"
+  },
+  "engines": {
+    "node": ">=14.18"
   },
   "c8": {
     "reporter": [
