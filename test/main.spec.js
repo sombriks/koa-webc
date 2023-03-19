@@ -3,7 +3,6 @@ const path = require("path")
 const chai = require("chai")
 const chaiHttp = require("chai-http")
 const { KoaWebC } = require("../src/main")
-const debug = require("debug")("*")
 
 const Koa = require("koa")
 
@@ -24,7 +23,6 @@ describe("Basic checks", () => {
     const app = new Koa()
     app.use(KoaWebC())
     app.use(async ctx => {
-      debug(ctx.render)
       chai.expect(ctx.render).to.be.a('function')
       ctx.body = "ok"
     })
@@ -97,6 +95,25 @@ describe("Basic checks", () => {
         res.should.have.status(200)
         chai.expect(res.text).to.include(`<span class="star">★</span>`)
         chai.expect(res.text).to.include(`title="speed"`)
+        done()
+      })
+  })
+
+  it("should render component in bundle mode", done => {
+
+    const app = new Koa()
+    app.use(KoaWebC({ bundle: true, viewPath: path.join(process.cwd(), "test", "fixtures") }))
+    app.use(async ctx => {
+      await ctx.render("my-counter.webc")
+    })
+
+    chai
+      .request(app.callback())
+      .get('/xpto')
+      .end((err, res) => {
+        if (err) return done(err)
+        if (res?.error) return done(res.error)
+        res.should.have.status(200)
         done()
       })
   })

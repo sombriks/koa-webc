@@ -14,8 +14,12 @@ exports.KoaWebC = (options) => {
     ctx.render = async (viewName, extra) => {
       const file = path.join(viewPath, viewName)
       const page = new WebC({ file })
-      let { html, css, js, components } = await page.compile({ data: { ctx } });
-      ctx.body = html
+      page.setBundlerMode(extra?.bundle || options?.bundle || false)
+
+      let { html, css, js } = await page.compile({ data: { ctx } })
+
+      if (!page.bundlerMode) ctx.body = html
+      else ctx.body = `<style>${css}</style>${html}<script>${js}</script>`
     }
     await next()
   }

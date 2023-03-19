@@ -1,0 +1,15 @@
+<button class="counter" :onclick="`increment('span-${uid}')`">
+  Counter <span :id="'span-'+uid" @raw="initial || '0'"></span>
+</button>
+<style webc:scoped>
+.counter {
+  font-size: 3em;
+}
+</style>
+<script>
+  function increment(id){
+    const counter = document.getElementById(id)
+    let count = parseInt(counter.innerHTML)
+    counter.innerHTML = ++count
+  }
+</script>
