@@ -1,0 +1,5 @@
+<fieldset>
+    <legend>Restricted Area</legend>
+    <h1>Welcome, <span webc:nokeep @html="ctx.request.body.username"></span></h1>
+    <p>Correct password? <span webc:nokeep @html="ctx.request.body.password == 'Sparrow'"></span></p>
+</fieldset>

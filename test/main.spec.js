@@ -2,9 +2,11 @@
 const path = require("path")
 const chai = require("chai")
 const chaiHttp = require("chai-http")
-const { KoaWebC } = require("../src/main")
+const {KoaWebC} = require("../src/main")
 
 const Koa = require("koa")
+const bodyParser = require('koa-bodyparser')
+const Router = require("@koa/router")
 
 chai.should()
 chai.use(chaiHttp)
@@ -41,7 +43,7 @@ describe("Basic checks", () => {
   it("should render a template", done => {
 
     const app = new Koa()
-    app.use(KoaWebC({ viewPath: path.join(process.cwd(), "test", "fixtures") }))
+    app.use(KoaWebC({viewPath: path.join(process.cwd(), "test", "fixtures")}))
     app.use(async ctx => {
       await ctx.render("hello-world.webc")
     })
@@ -61,7 +63,7 @@ describe("Basic checks", () => {
   it("should have access to ctx inside template", done => {
 
     const app = new Koa()
-    app.use(KoaWebC({ viewPath: path.join(process.cwd(), "test", "fixtures") }))
+    app.use(KoaWebC({viewPath: path.join(process.cwd(), "test", "fixtures")}))
     app.use(async ctx => {
       await ctx.render("hello-user.webc")
     })
@@ -81,7 +83,7 @@ describe("Basic checks", () => {
   it("should render complex templates", done => {
 
     const app = new Koa()
-    app.use(KoaWebC({ viewPath: path.join(process.cwd(), "test", "fixtures") }))
+    app.use(KoaWebC({viewPath: path.join(process.cwd(), "test", "fixtures")}))
     app.use(async ctx => {
       await ctx.render("complex/main.webc")
     })
@@ -102,7 +104,7 @@ describe("Basic checks", () => {
   it("should render component in bundle mode", done => {
 
     const app = new Koa()
-    app.use(KoaWebC({ bundle: true, viewPath: path.join(process.cwd(), "test", "fixtures") }))
+    app.use(KoaWebC({bundle: true, viewPath: path.join(process.cwd(), "test", "fixtures")}))
     app.use(async ctx => {
       await ctx.render("my-counter.webc")
     })
@@ -115,6 +117,49 @@ describe("Basic checks", () => {
         if (res?.error) return done(res.error)
         res.should.have.status(200)
         done()
+      })
+  })
+
+  it("should play nice with other plugins", done => {
+
+    const app = new Koa()
+    const router = new Router()
+
+    router.get("/hello-world", async ctx => {
+      await ctx.render("hello-world.webc")
+    })
+
+    router.post("/login", async ctx => {
+      await ctx.render("logged-user.webc")
+    })
+
+    // middleware registration order is important
+    app
+      .use(KoaWebC({bundle: true, viewPath: path.join(process.cwd(), "test", "fixtures")}))
+      .use(bodyParser())
+      .use(router.routes())
+      .use(router.allowedMethods())
+
+    chai
+      .request(app.callback())
+      .get('/hello-world')
+      .end((err, res) => {
+        if (err) return done(err)
+        if (res?.error) return done(res.error)
+        res.should.have.status(200)
+        chai.expect(res.text).to.include(`hello world!`)
+
+        chai.request(app.callback())
+          .post("/login")
+          .send({username:"Jack", password:"Sparrow"})
+          .end((err, res) => {
+            if (err) return done(err)
+            if (res?.error) return done(res.error)
+            res.should.have.status(200)
+            chai.expect(res.text).to.include(`Welcome, Jack`)
+            chai.expect(res.text).to.include(`Correct password? true`)
+            done()
+          })
       })
   })
 })

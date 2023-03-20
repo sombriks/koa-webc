@@ -31,4 +31,10 @@ See more [examples](https://github.com/sombriks/koa-webc-examples)
 
 ## Roadmap
 
-_under construction_
+- [X] initial support
+- [X] npm package publishing
+- [X] dedicated example project with snippets
+- [X] check interaction with other middlewares
+- [ ] CI/CD to automatically publish on npm
+- [ ] performance/benchmark tests
+- [ ] documentation once api gets stable
