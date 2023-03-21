@@ -104,7 +104,10 @@ describe("Basic checks", () => {
   it("should render component in bundle mode", done => {
 
     const app = new Koa()
-    app.use(KoaWebC({bundle: true, viewPath: path.join(process.cwd(), "test", "fixtures")}))
+    app.use(KoaWebC({
+      bundle: true,
+      viewPath: path.join(process.cwd(), "test", "fixtures")
+    }))
     app.use(async ctx => {
       await ctx.render("my-counter.webc")
     })
@@ -135,7 +138,10 @@ describe("Basic checks", () => {
 
     // middleware registration order is important
     app
-      .use(KoaWebC({bundle: true, viewPath: path.join(process.cwd(), "test", "fixtures")}))
+      .use(KoaWebC({
+        bundle: true,
+        viewPath: path.join(process.cwd(), "test", "fixtures")
+      }))
       .use(bodyParser())
       .use(router.routes())
       .use(router.allowedMethods())
@@ -151,7 +157,7 @@ describe("Basic checks", () => {
 
         chai.request(app.callback())
           .post("/login")
-          .send({username:"Jack", password:"Sparrow"})
+          .send({username: "Jack", password: "Sparrow"})
           .end((err, res) => {
             if (err) return done(err)
             if (res?.error) return done(res.error)
@@ -160,6 +166,41 @@ describe("Basic checks", () => {
             chai.expect(res.text).to.include(`Correct password? true`)
             done()
           })
+      })
+  })
+
+  it("should accept 'data' option to consume on template", done => {
+    const app = new Koa()
+    const router = new Router()
+
+    router.get("/the-extras", async ctx => {
+      await ctx.render("the-extras.webc", {data: {bar: 'baz', xpto: "xpto"}})
+    })
+
+    app
+      .use(KoaWebC({
+        bundle: true,
+        viewPath: path.join(process.cwd(), "test", "fixtures"),
+        data: {
+          foo: "foo",
+          bar: "bar"
+        }
+      }))
+      .use(router.routes())
+      .use(router.allowedMethods())
+
+    chai
+      .request(app.callback())
+      .get('/the-extras?baz=woof')
+      .end((err, res) => {
+        if (err) return done(err)
+        if (res?.error) return done(res.error)
+        res.should.have.status(200)
+        chai.expect(res.text).to.include(`Foo: foo`)
+        chai.expect(res.text).to.include(`Bar: baz`)
+        chai.expect(res.text).to.include(`Baz: woof`)
+        chai.expect(res.text).to.include(`Xpto: xpto`)
+        done()
       })
   })
 })

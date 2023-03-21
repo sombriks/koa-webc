@@ -1,0 +1,5 @@
+<h2>This is my extra data:</h2>
+<p>Foo: <span webc:nokeep @html="foo"></span></p>
+<p>Bar: <span webc:nokeep @html="bar"></span></p>
+<p>Baz: <span webc:nokeep @html="ctx.query.baz"></span></p>
+<p>Xpto: <span webc:nokeep @html="xpto"></span></p>

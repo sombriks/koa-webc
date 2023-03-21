@@ -2,11 +2,13 @@ const path = require("path")
 
 const defaultOptions = () => ({
   viewPath: path.join(process.cwd(), "views"),
-  bundle: false
+  bundle: false,
+  data: null
 })
 
 const defaultExtra = () => ({
-  bundle: false
+  bundle: false,
+  data: null
 })
 
 /**
@@ -19,7 +21,8 @@ const defaultExtra = () => ({
  */
 exports.KoaWebC = (options = defaultOptions()) => {
 
-  const viewPath = options?.viewPath || path.join(process.cwd(), "views")
+  const viewPath = options?.viewPath || defaultOptions().viewPath
+
   return async (ctx, next) => {
     const {WebC} = await import("@11ty/webc");
 
@@ -37,7 +40,8 @@ exports.KoaWebC = (options = defaultOptions()) => {
       const page = new WebC({file})
       page.setBundlerMode(extra?.bundle || options?.bundle || false)
 
-      let {html, css, js} = await page.compile({data: {ctx}})
+      const data = {ctx, ...options.data, ...extra.data}
+      let {html, css, js} = await page.compile({data})
 
       if (!page.bundlerMode) ctx.body = html
       else ctx.body = `<style>${css}</style>${html}<script>${js}</script>`

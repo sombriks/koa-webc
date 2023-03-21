@@ -27,6 +27,33 @@ app.listen(3000)
 console.log("http://localhost:3000")
 ```
 
+# Using some other middlewares
+
+```js
+const app = new Koa()
+const router = new Router()
+
+router.get("/the-extras", async ctx => {
+  // override data options
+  await ctx.render("the-extras.webc", {data: {bar: 'baz', xpto: "xpto"}})
+})
+
+// middleware registration order is important
+app
+  .use(KoaWebC({
+    bundle: true,
+    viewPath: path.join(process.cwd(), "test", "fixtures"),
+    data: {
+      foo: "foo",
+      bar: "bar"
+    }
+  }))
+  .use(router.routes())
+  .use(router.allowedMethods())
+  .listen(3000)
+console.log("http://localhost:3000")
+```
+
 See more [examples](https://github.com/sombriks/koa-webc-examples)
 
 ## Roadmap
