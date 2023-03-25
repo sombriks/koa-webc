@@ -1,6 +1,6 @@
 {
   "name": "koa-webc",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "koa plugin to render server-side webc web components",
   "webpage": "https://github.com/sombriks/koa-webc",
   "author": "Leonardo Silveira <sombriks@gmail.com>",
