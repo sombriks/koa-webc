@@ -18,7 +18,7 @@
     "test:coverage": "c8 npm run test"
   },
   "dependencies": {
-    "@11ty/webc": "^0.9.3",
+    "@11ty/webc": "^0.10.0",
     "debug": "^4.3.4",
     "koa": "^2.14.1"
   },

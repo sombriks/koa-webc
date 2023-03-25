@@ -1,0 +1,8 @@
+<div>
+  <h2>My favourite colors</h2>
+  <ul>
+    <li webc:for="item of colors">
+      <data-item :color="item"></data-item>
+    </li>
+  </ul>
+</div>

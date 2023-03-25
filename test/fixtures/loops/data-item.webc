@@ -1,0 +1,1 @@
+<div :style=`min-width:2em;min-height:2em;background-color:${color};`></div>

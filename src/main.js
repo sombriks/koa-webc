@@ -8,7 +8,7 @@ const defaultOptions = () => ({
 
 const defaultExtra = () => ({
   bundle: false,
-  data: null
+  data: undefined
 })
 
 /**
@@ -39,6 +39,11 @@ exports.KoaWebC = (options = defaultOptions()) => {
       const file = path.join(viewPath, viewName)
       const page = new WebC({file})
       page.setBundlerMode(extra?.bundle || options?.bundle || false)
+
+      if(options.defineComponents)
+        page.defineComponents(options.defineComponents)
+      if(extra.defineComponents)
+        page.defineComponents(extra.defineComponents)
 
       const data = {ctx, ...options.data, ...extra.data}
       let {html, css, js} = await page.compile({data})

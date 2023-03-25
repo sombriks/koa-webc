@@ -203,4 +203,36 @@ describe("Basic checks", () => {
         done()
       })
   })
+
+  it("should expose the 'defineComponents' api", done => {
+
+    const app = new Koa()
+
+    app.use(KoaWebC({
+      viewPath: path.join(process.cwd(), "test", "fixtures"),
+      defineComponents: path.join(process.cwd(), "test", "fixtures", "loops/*.webc")
+    }))
+
+    app.use(async ctx => {
+      await ctx.render("data-parent.webc", {
+        data: {
+          colors: ["red", "green", "blue"]
+        }
+      })
+    })
+
+    chai
+      .request(app.callback())
+      .get('/')
+      .end((err, res) => {
+        if (err) return done(err)
+        if (res?.error) return done(res.error)
+        res.should.have.status(200)
+
+        chai.expect(res.text).to.include(`background-color:red`)
+        chai.expect(res.text).to.include(`background-color:blue`)
+        chai.expect(res.text).to.include(`background-color:green`)
+        done()
+      })
+  })
 })
