@@ -4,7 +4,8 @@
 [![npm version](https://img.shields.io/npm/v/koa-webc?style=plastic)](https://www.npmjs.com/package/koa-webc)
 
 This plugin enables [Koa](https://koajs.com/) to serve
-[WebC](https://github.com/11ty/webc) pages.
+[WebC](https://github.com/11ty/webc)
+[pages](https://11ty.rocks/posts/introduction-webc/).
 
 ## Installing
 
@@ -27,7 +28,7 @@ app.listen(3000)
 console.log("http://localhost:3000")
 ```
 
-# Using some other middlewares
+## Using with other middlewares
 
 ```js
 const app = new Koa()
@@ -62,6 +63,6 @@ See more [examples](https://github.com/sombriks/koa-webc-examples)
 - [X] npm package publishing
 - [X] dedicated example project with snippets
 - [X] check interaction with other middlewares
-- [ ] CI/CD to automatically publish on npm
+- [X] [documentation](index.d.ts) once api gets stable
 - [ ] performance/benchmark tests
-- [ ] documentation once api gets stable
+- [ ] CI/CD to automatically publish on npm
